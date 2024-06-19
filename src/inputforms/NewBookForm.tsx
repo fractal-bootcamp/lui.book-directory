@@ -3,12 +3,12 @@ import { PORT } from "../../shared/constants";
 
 const serverPath = `http://localhost:${PORT}`;
 
-const newBookSubmit = async (title: string, authorId: number) => {
+const newBookSubmit = async (name: string, authorId: number) => {
   console.log("CALLED");
   try {
     const response = await fetch(`${serverPath}/newbook`, {
       method: "POST",
-      body: JSON.stringify({ title, authorId }),
+      body: JSON.stringify({ name, authorId }),
       headers: {
         "Content-Type": "application/json",
       },
