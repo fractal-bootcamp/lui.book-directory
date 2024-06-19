@@ -28,14 +28,26 @@ const getData = async () => {
 function App() {
   return (
     <>
-      <h2 className="bg-blue-100 text-red-500">Hello</h2>
-      <button onClick={() => getData()}>getData Button</button>
-      <button onClick={() => getAuthors()}>getAuthors Button</button>
-      <button onClick={() => console.log("Hello World")}>Test Button</button>
-
-      <NewAuthorForm />
-
-      <NewBookForm />
+      <div className="flex flex-row justify-center">
+        <h3>Debug Tools</h3>
+      </div>
+      <div className="flex flex-row justify-center">
+        <p className="bg-blue-100 text-red-500">Hello</p>
+        <button onClick={() => getData()}>getData Button</button>
+        <button onClick={() => getAuthors()}>getAuthors Button</button>
+        <button onClick={() => console.log("Hello World")}>Test Button</button>
+      </div>
+      <div className="flex flex-row justify-center">
+        <h3>Add in new data here</h3>
+      </div>
+      <div className="flex flex-row">
+        <div className="flex flex-col m-10">
+          <NewAuthorForm />
+        </div>
+        <div className="flex flex-col m-10">
+          <NewBookForm />
+        </div>
+      </div>
     </>
   );
 }

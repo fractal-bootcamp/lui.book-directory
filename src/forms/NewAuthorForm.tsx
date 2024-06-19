@@ -26,6 +26,7 @@ export const NewAuthorForm = () => {
 
   return (
     <>
+      <div>Enter an Author name here:</div>
       <input
         type="text"
         value={submittedValue}
