@@ -3,6 +3,7 @@ import "./App.css";
 
 import { PORT } from "../shared/constants";
 import { NewAuthorForm } from "./forms/NewAuthorForm";
+import { NewBookForm } from "./forms/NewBookForm";
 
 const serverPath = `http://localhost:${PORT}`;
 
@@ -32,6 +33,8 @@ function App() {
       <button onClick={() => console.log("Hello World")}>Test Button</button>
 
       <NewAuthorForm />
+
+      <NewBookForm />
     </>
   );
 }

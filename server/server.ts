@@ -38,6 +38,24 @@ app.post("/newauthor", async (req, res) => {
   }
 });
 
+app.post("/newbook", async (req, res) => {
+  try {
+    const result = await prisma.book.create({
+      data: {
+        ...req.body,
+      },
+    });
+    console.log(
+      "SUCCESS: /newbook endpoint was called and responded with",
+      result
+    );
+    res.json(result);
+  } catch (error) {
+    console.error("Error creating book:", error);
+    res.status(500).json({ error: "Failed to create book" });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
