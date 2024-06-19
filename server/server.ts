@@ -32,8 +32,19 @@ app.get("/authors/id/:id", async (req, res) => {
       id: Number(id),
     },
   });
-  console.log("Route called: /authors/search/:query");
+  console.log("Route called: /authors/id/:id");
   res.json({ authors });
+});
+
+app.get("/books/id/:id", async (req, res) => {
+  const { id } = req.params;
+  const books = await prisma.book.findUnique({
+    where: {
+      id: Number(id),
+    },
+  });
+  console.log("Route called: /books/id/:id");
+  res.json({ books });
 });
 
 //////////////////////////////////////////////////////////////////////////////
@@ -44,6 +55,12 @@ app.get("/authors", async (req, res) => {
   const authors = await prisma.author.findMany();
   console.log("/authors has received a request.");
   res.json({ authors });
+});
+
+app.get("/books", async (req, res) => {
+  const books = await prisma.book.findMany();
+  console.log("/books has received a request.");
+  res.json({ books });
 });
 
 //////////////////////////////////////////////////////////////////////////////
@@ -61,6 +78,19 @@ app.get("/authors/search/:query", async (req, res) => {
   });
   console.log("Route called: /authors/search/:query");
   res.json({ authors });
+});
+
+app.get("/books/search/:query", async (req, res) => {
+  const { query } = req.params;
+  const books = await prisma.book.findMany({
+    where: {
+      name: {
+        contains: query,
+      },
+    },
+  });
+  console.log("Route called: /books/search/:query");
+  res.json({ books });
 });
 
 //////////////////////////////////////////////////////////////////////////////
