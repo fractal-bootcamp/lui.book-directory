@@ -4,7 +4,11 @@ import "./App.css";
 import { PORT } from "../shared/constants";
 import { NewAuthorForm } from "./inputforms/NewAuthorForm";
 import { NewBookForm } from "./inputforms/NewBookForm";
-import { getAllAuthors, searchAuthors } from "../shared/transformers";
+import {
+  getAllAuthors,
+  getAuthor,
+  searchAuthors,
+} from "../shared/transformers";
 import { ShowAuthors, ShowThing } from "./components/ShowThings";
 
 const serverPath = `http://localhost:${PORT}`;
@@ -25,6 +29,8 @@ const startingContent = await getAllAuthors();
 
 const startingSearchContent = await searchAuthors("u");
 
+const sampleSinglePieceOfContent = await getAuthor(4);
+
 const App = () => {
   const [content, setContent] = useState(startingContent);
 
@@ -34,6 +40,9 @@ const App = () => {
         <h3>Debug Tools</h3>
       </div>
       {ShowAuthors({ authors: content })}
+      <br />
+      {ShowAuthors({ authors: [sampleSinglePieceOfContent] })}
+
       <br />
       <h1>Authors that have the letter U in their name: </h1>
       {ShowAuthors({ authors: startingSearchContent })}
