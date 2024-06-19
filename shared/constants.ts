@@ -1,7 +1,6 @@
 export const PORT = 4050;
 
 export type Book = {
-  id: string;
+  id: number;
   title: string;
-  author: string;
 };
