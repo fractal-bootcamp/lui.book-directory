@@ -26,3 +26,5 @@ export type Webuser = {
   name: string;
   avatarUrl?: string;
 };
+
+export type ContentType = "author" | "book";
