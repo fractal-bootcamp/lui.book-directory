@@ -21,7 +21,7 @@ describe(getAuthor, () => {
 });
 
 describe(getBook, () => {
-  it("gets an Author object with the id", async () => {
+  it("gets a Book object with the id", async () => {
     const author = await getBook(1);
     expect(author).toBeTruthy();
   });
