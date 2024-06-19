@@ -28,6 +28,7 @@ const getData = async () => {
 function App() {
   return (
     <>
+      <h2 className="bg-blue-100 text-red-500">Hello</h2>
       <button onClick={() => getData()}>getData Button</button>
       <button onClick={() => getAuthors()}>getAuthors Button</button>
       <button onClick={() => console.log("Hello World")}>Test Button</button>
