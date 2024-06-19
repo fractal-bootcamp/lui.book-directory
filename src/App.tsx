@@ -2,16 +2,12 @@ import { useState } from "react";
 import "./App.css";
 
 import { PORT } from "../shared/constants";
-import { NewAuthorForm } from "./forms/NewAuthorForm";
-import { NewBookForm } from "./forms/NewBookForm";
+import { NewAuthorForm } from "./inputforms/NewAuthorForm";
+import { NewBookForm } from "./inputforms/NewBookForm";
+import { getAllAuthors, searchAuthors } from "../shared/transformers";
+import { ShowAuthors, ShowThing } from "./components/ShowThings";
 
 const serverPath = `http://localhost:${PORT}`;
-
-const getAuthors = async () => {
-  const data = await fetch(`${serverPath}/authors`);
-  const json = await data.json();
-  return json.authors;
-};
 
 const getData = async () => {
   const response = await fetch(`${serverPath}`, {
@@ -25,16 +21,28 @@ const getData = async () => {
   return json.books;
 };
 
-function App() {
+const startingContent = await getAllAuthors();
+
+const startingSearchContent = await searchAuthors("u");
+
+const App = () => {
+  const [content, setContent] = useState(startingContent);
+
   return (
     <>
       <div className="flex flex-row justify-center">
         <h3>Debug Tools</h3>
       </div>
+      {ShowAuthors({ authors: content })}
+      <br />
+      <h1>Authors that have the letter U in their name: </h1>
+      {ShowAuthors({ authors: startingSearchContent })}
+      <br />
+      <br />
       <div className="flex flex-row justify-center">
         <p className="bg-blue-100 text-red-500">Hello</p>
         <button onClick={() => getData()}>getData Button</button>
-        <button onClick={() => getAuthors()}>getAuthors Button</button>
+        <button onClick={() => getAllAuthors()}>getAuthors Button</button>
         <button onClick={() => console.log("Hello World")}>Test Button</button>
       </div>
       <div className="flex flex-row justify-center">
@@ -50,6 +58,6 @@ function App() {
       </div>
     </>
   );
-}
+};
 
 export default App;

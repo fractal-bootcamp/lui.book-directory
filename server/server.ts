@@ -20,6 +20,19 @@ app.get("/authors", async (req, res) => {
   res.json({ authors });
 });
 
+app.get("/authors/search/:query", async (req, res) => {
+  const { query } = req.params;
+  const authors = await prisma.author.findMany({
+    where: {
+      name: {
+        contains: query,
+      },
+    },
+  });
+  console.log("Route called: /authors/search/:query");
+  res.json({ authors });
+});
+
 app.post("/newauthor", async (req, res) => {
   try {
     const result = await prisma.author.create({
