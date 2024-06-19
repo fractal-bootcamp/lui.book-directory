@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 
 import { PORT } from "../shared/constants";
@@ -9,7 +8,7 @@ import {
   getAuthor,
   searchAuthors,
 } from "../shared/transformers";
-import { ShowAuthors, ShowThing } from "./components/ShowThings";
+import { ShowAuthors } from "./components/ShowThings";
 
 const serverPath = `http://localhost:${PORT}`;
 
@@ -32,14 +31,12 @@ const startingSearchContent = await searchAuthors("u");
 const sampleSinglePieceOfContent = await getAuthor(4);
 
 const App = () => {
-  const [content, setContent] = useState(startingContent);
-
   return (
     <>
       <div className="flex flex-row justify-center">
         <h3>Debug Tools</h3>
       </div>
-      {ShowAuthors({ authors: content })}
+      {ShowAuthors({ authors: startingContent })}
       <br />
       {ShowAuthors({ authors: [sampleSinglePieceOfContent] })}
 

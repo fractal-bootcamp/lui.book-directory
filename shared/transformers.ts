@@ -1,4 +1,6 @@
-import { Author, sampleAuthor, Book, Tag, Webuser, PORT } from "./constants";
+import { Author, sampleAuthor, Book, PORT } from "./constants";
+
+// To add in: Tag, Webuser
 
 const serverPath = `http://localhost:${PORT}`;
 
