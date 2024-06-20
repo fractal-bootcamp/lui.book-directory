@@ -8,9 +8,12 @@
   - `git branch -M main`
   - `git push -u origin main`
 - Add basics for a new server
+
   - `mkdir server`
   - `cd server`
   - `npm init`
+
+  ```
     "name": "backend",
     "version": <just hit enter>
     "description": <just hit enter>
@@ -20,13 +23,14 @@
     keywords: <just hit enter>
     "author": Lui
     "license": "MIT"
-    (defaults are shown in brackets)
-    In the /server folder:
-    npm install express
-    npm i --save-dev @types/express
-    npm install cors
-    npm i --save-dev @types/cors
-    Create a server/server.ts file with the following:
+  ```
+
+- In the /server folder:
+  - `npm install express`
+  - `npm i --save-dev @types/express`
+  - `npm install cors`
+  - `npm i --save-dev @types/cors`
+- Create a server/server.ts file with the following:
 
 import express from "express";
 import cors from "cors";
