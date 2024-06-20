@@ -65,12 +65,14 @@ describe(searchAuthors, () => {
   it("searches across all Author objects", async () => {
     const authors = await searchAuthors("Kurt");
     expect(authors).toBeTruthy();
+    expect(authors.length).toBeGreaterThan(1);
   });
 });
 
 describe(searchBooks, () => {
   it("searches across all Book objects", async () => {
-    const authors = await searchBooks("Atlas");
-    expect(authors).toBeTruthy();
+    const books = await searchBooks("Piano");
+    expect(books.length).toBeGreaterThan(1);
+    expect(books).toBeTruthy();
   });
 });
