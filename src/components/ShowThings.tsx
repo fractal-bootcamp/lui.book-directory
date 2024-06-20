@@ -1,18 +1,26 @@
-import { ContentType, Author } from "../../shared/constants";
+import { Author, Book } from "@prisma/client";
 
-export const ShowThing = ({ id, type }: { id: number; type: ContentType }) => {
+export const ShowAuthors = ({ items }: { items: Author[] }) => {
+  console.log(items);
   return (
     <div>
-      The id is {id}. The type is {type}.
+      {items.map((item, index) => {
+        return (
+          <div key={index}>
+            {" "}
+            {item.name} {item.genre}
+          </div>
+        );
+      })}
     </div>
   );
 };
 
-export const ShowAuthors = ({ authors }: { authors: Author[] }) => {
+export const ShowBooks = ({ items }: { items: Book[] }) => {
   return (
     <div>
-      {authors.map((author, index) => {
-        return <div key={index}> {author.name}</div>;
+      {items.map((item, index) => {
+        return <div key={index}> {item.name}</div>;
       })}
     </div>
   );

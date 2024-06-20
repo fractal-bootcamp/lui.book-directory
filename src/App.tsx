@@ -1,67 +1,74 @@
 import "./App.css";
 
-import { PORT } from "../shared/constants";
 import { NewAuthorForm } from "./inputforms/NewAuthorForm";
 import { NewBookForm } from "./inputforms/NewBookForm";
-import {
-  getAllAuthors,
-  getAuthor,
-  searchAuthors,
-} from "../shared/transformers";
-import { ShowAuthors } from "./components/ShowThings";
+import { getAllAuthors, getAllBooks } from "../shared/transformers";
+import { ShowAuthors, ShowBooks } from "./components/ShowThings";
+import { useState } from "react";
 
-const serverPath = `http://localhost:${PORT}`;
+const startingAuthors = await getAllAuthors();
 
-const getData = async () => {
-  const response = await fetch(`${serverPath}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const json = await response.json();
-  console.log("getGame json", json.books);
-  return json.books;
+const startingBooks = await getAllBooks();
+
+const Divider = ({ text, color }: { text: string; color: string }) => {
+  console.log(
+    `flex flex-row justify-center bg-${color}-100 text-${color}-500 m-8 p-2 rounded`
+  );
+  return (
+    <div
+      className={`flex flex-row justify-center bg-${color}-100 text-${color}-500 m-8 p-2 rounded`}
+    >
+      <h3>{text}</h3>
+    </div>
+  );
 };
 
-const startingContent = await getAllAuthors();
+const flexRowClass = "flex flex-row m-5 justify-center";
 
-const startingSearchContent = await searchAuthors("u");
-
-const sampleSinglePieceOfContent = await getAuthor(4);
+const flexColClass = "flex flex-col m-5";
 
 const App = () => {
+  const [displayedAuthors, setDisplayedAuthors] = useState(startingAuthors);
+  const [displayedBooks, setDisplayedBooks] = useState(startingBooks);
+
   return (
     <>
-      <div className="flex flex-row justify-center">
-        <h3>Debug Tools</h3>
+      <Divider text={"Search for your faves!"} color={"blue"} />
+      <div className={flexRowClass}>
+        <div className={flexColClass}>Search Input A will go here</div>
+        <div className={flexColClass}>Search Input B will go here</div>
       </div>
-      {ShowAuthors({ authors: startingContent })}
       <br />
-      {ShowAuthors({ authors: [sampleSinglePieceOfContent] })}
+      <div className={flexRowClass}>
+        <button onClick={() => getAllAuthors()}>Author Search</button>
+        <button onClick={() => console.log("Hello World")}>Book Search</button>
+      </div>
 
-      <br />
-      <h1>Authors that have the letter U in their name: </h1>
-      {ShowAuthors({ authors: startingSearchContent })}
-      <br />
-      <br />
-      <div className="flex flex-row justify-center">
-        <p className="bg-blue-100 text-red-500">Hello</p>
-        <button onClick={() => getData()}>getData Button</button>
-        <button onClick={() => getAllAuthors()}>getAuthors Button</button>
-        <button onClick={() => console.log("Hello World")}>Test Button</button>
-      </div>
-      <div className="flex flex-row justify-center">
-        <h3>Add in new data here</h3>
-      </div>
-      <div className="flex flex-row">
-        <div className="flex flex-col m-10">
-          <NewAuthorForm />
+      <Divider text="Explore the library" color="green" />
+
+      <div className={flexRowClass}>
+        <div className={flexColClass}>
+          {ShowAuthors({ items: displayedAuthors })}
         </div>
-        <div className="flex flex-col m-10">
-          <NewBookForm />
+        <div className={flexColClass}>
+          {ShowBooks({ items: displayedBooks })}
         </div>
       </div>
+      <div className="flex flex-col">
+        <Divider text="Add new entries - Mods only" color="red" />
+
+        <div className={flexRowClass}>
+          <div className={flexColClass}>
+            <NewAuthorForm />
+          </div>
+          <div className={flexColClass}>
+            <NewBookForm />
+          </div>
+        </div>
+      </div>
+      <p className="bg-blue-100 text-blue-500">Hello</p>
+      <p className="bg-green-100 text-green-500">Hello</p>
+      <p className="bg-red-100 text-red-500">Hello</p>
     </>
   );
 };

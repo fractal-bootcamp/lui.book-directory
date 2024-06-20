@@ -1,5 +1,5 @@
 import client from "./client";
-import { getRandomAuthor, searchAuthors } from "./shared/transformers";
+import { searchAuthors } from "./shared/transformers";
 
 const seed = async () => {
   await client.book.deleteMany({
@@ -14,9 +14,28 @@ const seed = async () => {
     data: [
       {
         name: "Kurt Vonnegut",
+        genre: "Dark Humor",
+        nation: "United States",
       },
       {
         name: "Mary Beard",
+        genre: "Classics Non-Fiction",
+        nation: "United Kingdom",
+      },
+      {
+        name: "James Joyce",
+        genre: "Modernism",
+        nation: "Ireland",
+      },
+      {
+        name: "Charles Baudelaire",
+        genre: "Poetry",
+        nation: "France",
+      },
+      {
+        name: "Italo Calvino",
+        genre: "Realism",
+        nation: "Italy",
       },
     ],
   });
@@ -33,6 +52,36 @@ const seed = async () => {
       {
         authorId: sampleAuthorId,
         name: "Timequake",
+        language: "English",
+      },
+      {
+        authorId: sampleAuthorId,
+        name: "Player Piano",
+        language: "English",
+      },
+      {
+        authorId: sampleAuthorId,
+        name: "Mother Night",
+        language: "English",
+      },
+      {
+        authorId: sampleAuthorId,
+        name: "Cat's Cradle",
+        language: "English",
+      },
+      {
+        authorId: sampleAuthorId,
+        name: "Slapstick",
+        language: "English",
+      },
+      {
+        authorId: sampleAuthorId,
+        name: "Jailbird",
+        language: "English",
+      },
+      {
+        authorId: sampleAuthorId,
+        name: "Bluebeard",
         language: "English",
       },
     ],

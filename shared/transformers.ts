@@ -1,4 +1,5 @@
-import { Author, sampleAuthor, Book, PORT } from "./constants";
+import { Author, Book } from "@prisma/client";
+import { PORT } from "./constants";
 
 // To add in: Tag, Webuser
 
@@ -9,9 +10,6 @@ const serverPath = `http://localhost:${PORT}`;
 //////////////////////////////////////////////////////////////////////////////
 
 export const getAuthor = async (id: number): Promise<Author> => {
-  if (id === 999) {
-    return sampleAuthor;
-  }
   const data = await fetch(`${serverPath}/authors/id/${id}`);
   const json = await data.json();
   return json.authors;
