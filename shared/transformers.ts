@@ -1,4 +1,4 @@
-import { Author, Book } from "@prisma/client";
+import { Author, Book, Reader } from "@prisma/client";
 import { PORT } from "./constants";
 
 // To add in: Tag, Webuser
@@ -6,7 +6,7 @@ import { PORT } from "./constants";
 const serverPath = `http://localhost:${PORT}`;
 
 //////////////////////////////////////////////////////////////////////////////
-// USERS
+// READERS
 //////////////////////////////////////////////////////////////////////////////
 
 export const createOrUpdateReader = async (
@@ -16,6 +16,27 @@ export const createOrUpdateReader = async (
   const response = await fetch(`${serverPath}/newuser`, {
     method: "POST",
     body: JSON.stringify({ clerkID, firstName }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const json = await response.json();
+  return json;
+};
+
+export const getReaderIdFromClerkId = async (
+  clerkid: string
+): Promise<Reader> => {
+  const data = await fetch(`${serverPath}/reader/id/${clerkid}`);
+  const json = await data.json();
+  return json.id.id;
+};
+
+export const readerBookFave = async (clerkUserId: string, bookId: string) => {
+  const readerId = await getReaderIdFromClerkId(clerkUserId);
+  const response = await fetch(`${serverPath}/fave`, {
+    method: "POST",
+    body: JSON.stringify({ readerId, bookId }),
     headers: {
       "Content-Type": "application/json",
     },

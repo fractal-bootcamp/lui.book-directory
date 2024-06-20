@@ -11,7 +11,7 @@ export const ShowBookBadges = ({ items }: { items: Book[] }) => {
   return (
     <div>
       {items.map((item, index) => {
-        return <Badge book={item} />;
+        return <Badge book={item} key={index} />;
       })}
     </div>
   );

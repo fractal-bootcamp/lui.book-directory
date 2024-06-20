@@ -21,6 +21,10 @@ app.get("/", async (req, res) => {
 // 3 - Other
 //
 
+//////////////////////////////////////////////////////////////////////////////
+// READERS
+//////////////////////////////////////////////////////////////////////////////
+
 app.post("/newuser", async (req, res) => {
   const reqClerkID = req.body.clerkID;
   const reqFirstName = req.body.firstName;
@@ -34,6 +38,34 @@ app.post("/newuser", async (req, res) => {
 
   res.json(user);
 });
+
+app.get("/reader/id/:clerkid", async (req, res) => {
+  const { clerkid } = req.params;
+  const entry = await client.reader.findUnique({
+    where: {
+      clerkID: clerkid,
+    },
+  });
+  const id = entry ? entry.id : 0;
+  console.log("Route called: /reader/id/:clerkid");
+  res.json({ id });
+});
+
+// THURSDAY 20 JUN WRAPPING UP MID STREAM - THIS FUNCTION NEEDS WORK
+// CALLED BY readerBookFave
+//
+// app.post("/fave", async (req, res) => {
+//   const reqReaderId = req.body.readerId;
+//   const reqBookId = req.body.bookId;
+
+//   const newfave = await client.readerBookFave.upsert({
+//     where: { bookId: reqBookId, readerId: reqReaderId },
+//     update: { bookId: reqBookId, readerId: reqReaderId },
+//     create: { bookId: reqBookId, readerId: reqReaderId },
+//   });
+
+//   res.json(newfave);
+// });
 
 //////////////////////////////////////////////////////////////////////////////
 // GET ONE
