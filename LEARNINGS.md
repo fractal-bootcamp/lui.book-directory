@@ -1,12 +1,16 @@
-Problem:
+### Problem:
 
 You have a production flow that looks like this:
 
+```
 client App code -> Server.ts -> Prisma client -> Docker Database
+```
 
 Your QA/test flow is:
 
+```
 client App code -> Server.ts -> Prisma client (using .env.test) -> Docker Database (using .env.test)
+```
 
 In order for this to work, you need to...
 
@@ -17,7 +21,7 @@ In order for this to work, you need to...
     - Start running Server.ts
       - Run all your tests on client App code, which send calls across the whole flow
     - Switch off Server.ts
-- Close Docker
+- Stop Docker
 
 ## Running Server.ts without blocking the Terminal
 
@@ -32,10 +36,6 @@ pm2 lets you run a command in a detached way using the syntax `pm2 start 'bun se
 `pm2 start 'bun server/server.ts' --name testserver`
 and
 `pm2 delete testserver`
-
-## Running Server.ts without blocking the Terminal
-
-We can add these in as ingredient scripts to our
 
 ## Chaining together scripts as ingredients in package.json
 
@@ -59,7 +59,7 @@ The sequence for our scripts is going to be:
 
 Instead of start/stop docker we say docker compose up/down. Instead of saying populate database we say prisma migrate. Etc etc. For that reason, the sequence above ends looking like the following in package.json:
 
-```js
+```json
     "test:db:up": "docker compose -f docker-compose.test.yml up -d",
     "test:db:down": "docker compose -f docker-compose.test.yml down",
     "test:db:migrate": "npx prisma migrate dev",
