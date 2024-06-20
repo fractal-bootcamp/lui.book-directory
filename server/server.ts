@@ -1,9 +1,8 @@
-import { PrismaClient } from "@prisma/client";
+import client from "../client";
 import express from "express";
 import cors from "cors";
 import { PORT } from "../shared/constants";
 
-const prisma = new PrismaClient();
 const app = express();
 
 app.use(express.json());
@@ -27,7 +26,7 @@ app.get("/", async (req, res) => {
 
 app.get("/authors/id/:id", async (req, res) => {
   const { id } = req.params;
-  const authors = await prisma.author.findUnique({
+  const authors = await client.author.findUnique({
     where: {
       id: Number(id),
     },
@@ -38,7 +37,7 @@ app.get("/authors/id/:id", async (req, res) => {
 
 app.get("/books/id/:id", async (req, res) => {
   const { id } = req.params;
-  const books = await prisma.book.findUnique({
+  const books = await client.book.findUnique({
     where: {
       id: Number(id),
     },
@@ -52,13 +51,17 @@ app.get("/books/id/:id", async (req, res) => {
 //////////////////////////////////////////////////////////////////////////////
 
 app.get("/authors", async (req, res) => {
-  const authors = await prisma.author.findMany();
+  const limitParam = req.query.limit;
+  const limit = typeof limitParam === "string" ? parseInt(limitParam) : 10;
+  const authors = await client.author.findMany({
+    take: limit,
+  });
   console.log("/authors has received a request.");
   res.json({ authors });
 });
 
 app.get("/books", async (req, res) => {
-  const books = await prisma.book.findMany();
+  const books = await client.book.findMany();
   console.log("/books has received a request.");
   res.json({ books });
 });
@@ -69,7 +72,7 @@ app.get("/books", async (req, res) => {
 
 app.get("/authors/search/:query", async (req, res) => {
   const { query } = req.params;
-  const authors = await prisma.author.findMany({
+  const authors = await client.author.findMany({
     where: {
       name: {
         contains: query,
@@ -82,7 +85,7 @@ app.get("/authors/search/:query", async (req, res) => {
 
 app.get("/books/search/:query", async (req, res) => {
   const { query } = req.params;
-  const books = await prisma.book.findMany({
+  const books = await client.book.findMany({
     where: {
       name: {
         contains: query,
@@ -99,7 +102,7 @@ app.get("/books/search/:query", async (req, res) => {
 
 app.post("/newauthor", async (req, res) => {
   try {
-    const result = await prisma.author.create({
+    const result = await client.author.create({
       data: {
         ...req.body,
       },
@@ -117,7 +120,7 @@ app.post("/newauthor", async (req, res) => {
 
 app.post("/newbook", async (req, res) => {
   try {
-    const result = await prisma.book.create({
+    const result = await client.book.create({
       data: {
         ...req.body,
       },

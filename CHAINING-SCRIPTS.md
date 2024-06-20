@@ -31,6 +31,7 @@ You probably know:
 You may not know:
 
 - You can chain together scripts using the format `"script3": "script1 && script2"` and they will be run in sequence
+- If you want the chain to continue even if a command fails, use a semicolon instead of &&, eg: `"script6":"script4; script5"`
 - You can run a command with non-default .env variables by starting with the command with `npx dotenv-cli -e .env.test --`, where... `.env.test` is the home of the variables you want to use
 
 This means we can combine our first few commands as follows:
@@ -79,7 +80,7 @@ Instead of start/stop docker we say docker compose up/down. Instead of saying po
     "test:server:up":"pm2 start 'bun server/server.ts' --name testserver",
     "test:server:down":"pm2 delete testserver",
     "test:db:run": "vitest run",
-    "test-db": "npm run test:db:up && npx dotenv-cli -e .env.test -- npm run test:db:migrate && npx dotenv-cli -e .env.test -- npm run test:server:up && npx dotenv-cli -e .env.test -- npm run test:db:run && npm run test:server:down && npm run test:db:down"
+    "test-db": "npm run test:db:up && npx dotenv-cli -e .env.test -- npm run test:db:migrate && npx dotenv-cli -e .env.test -- npm run test:server:up && npx dotenv-cli -e .env.test -- npm run test:db:run; npm run test:server:down && npm run test:db:down"
 ```
 
 This can called with `npm run test-db`.

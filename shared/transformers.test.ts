@@ -4,26 +4,36 @@ import {
   getAllBooks,
   getAuthor,
   getBook,
+  getRandomAuthor,
+  getRandomBook,
   searchAuthors,
   searchBooks,
 } from "./transformers";
-import { test, describe, it, expect } from "vitest";
+import { test, describe, it, expect, beforeEach, beforeAll } from "vitest";
+
+import seed from "../seed";
+
+beforeAll(async () => {
+  await seed();
+});
 
 //////////////////////////////////////////////////////////////////////////////
 // GET ONE
 //////////////////////////////////////////////////////////////////////////////
 
-describe(getAuthor, () => {
+describe("check you can get an Author object", () => {
   it("gets an Author object with the id", async () => {
-    const author = await getAuthor(999);
-    expect(author).toEqual(sampleAuthor);
+    const randomAuthor = await getRandomAuthor();
+    const author = await getAuthor(randomAuthor.id);
+    expect(author).toBeTruthy();
   });
 });
 
-describe(getBook, () => {
+describe("check you can get a Book object", () => {
   it("gets a Book object with the id", async () => {
-    const author = await getBook(1);
-    expect(author).toBeTruthy();
+    const randomBook = await getRandomBook();
+    const book = await getBook(randomBook.id);
+    expect(book).toBeTruthy();
   });
 });
 
@@ -34,14 +44,16 @@ describe(getBook, () => {
 describe(getAllAuthors, () => {
   it("gets all Author objects", async () => {
     const authors = await getAllAuthors();
-    expect(authors).toBeTruthy();
+    console.log("AUTHORS IN TEST", authors);
+    expect(authors.length).toBeGreaterThan(1);
   });
 });
 
 describe(getAllBooks, () => {
   it("gets all Book objects", async () => {
-    const authors = await getAllBooks();
-    expect(authors).toBeTruthy();
+    const books = await getAllBooks();
+    console.log("BOOKS IN TEST", books);
+    expect(books.length).toBeGreaterThan(1);
   });
 });
 

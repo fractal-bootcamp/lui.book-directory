@@ -10,11 +10,13 @@
     "preview": "vite preview",
     "test": "vitest",
     "test:env": "npx dotenv -e .env.test vitest",
+    "test:server:up":"pm2 start 'bun server/server.ts' --name testserver",
+    "test:server:down":"pm2 delete testserver",
     "db:migrate": "npx prisma migrate dev",
-    "test:db:up": "npx compose -f docker-compose.test.yml up -d",
+    "test:db:up": "docker compose -f docker-compose.test.yml up -d",
     "test:db:run": "vitest run",
     "test:db:down": "docker compose -f docker-compose.test.yml down",
-    "test-db": "npm run test:db:up && npx dotenv-cli -e .env.test -- npm run db:migrate && npx dotenv-cli -e .env.test -- npm test:db:run && npm run:db:down"
+    "test-db": "npm run test:db:up && npx dotenv-cli -e .env.test -- npm run db:migrate && npx dotenv-cli -e .env.test -- npm run test:server:up && npx dotenv-cli -e .env.test -- npm run test:db:run; npm run test:server:down && npm run test:db:down"
   },
   "dependencies": {
     "@prisma/client": "^5.15.1",

@@ -23,6 +23,22 @@ export const getBook = async (id: number): Promise<Book> => {
   return json.books;
 };
 
+export const getRandomAuthor = async (): Promise<Author> => {
+  const allAuthors = await getAllAuthors();
+  const id = allAuthors[0].id;
+  const data = await fetch(`${serverPath}/authors/id/${id}`);
+  const json = await data.json();
+  return json.authors;
+};
+
+export const getRandomBook = async (): Promise<Book> => {
+  const allBooks = await getAllBooks();
+  const id = allBooks[0].id;
+  const data = await fetch(`${serverPath}/books/id/${id}`);
+  const json = await data.json();
+  return json.books;
+};
+
 //////////////////////////////////////////////////////////////////////////////
 // GET ALL
 //////////////////////////////////////////////////////////////////////////////

@@ -13,11 +13,30 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model Author {
+  id        Int       @id @default(autoincrement())
+  name      String    @unique
+  genre     String?
+  nation    String?
+  born      DateTime?
+  died      DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
+  rating    Int       @default(0)
+
+  // relationships
+  books Book[]
+
+  @@map("author")
+}
+
 model Book {
   id        Int       @id @default(autoincrement())
   name      String    @unique
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
+  language  String?
+  rating    Int       @default(0)
 
   // relational ids
   authorId Int
@@ -27,18 +46,6 @@ model Book {
   tags   Tag[]
 
   @@map("book")
-}
-
-model Author {
-  id        Int       @id @default(autoincrement())
-  name      String    @unique
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-
-  // relationships
-  books Book[]
-
-  @@map("author")
 }
 
 model Tag {
