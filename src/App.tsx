@@ -18,6 +18,7 @@ import {
   UserButton,
   useUser,
 } from "@clerk/clerk-react";
+import { ShowBookBadges } from "./components/Badge";
 
 const startingAuthors = await getAllAuthors();
 
@@ -88,6 +89,12 @@ const App = () => {
           {ShowBooks({ items: displayedBooks })}
         </div>
       </div>
+      <Divider text="Alt view of available books" color="yellow" />
+
+      <div className={flexRowClass}>
+        <ShowBookBadges items={displayedBooks} />
+      </div>
+
       <div className="flex flex-col">
         <Divider text="Add new entries - Mods only" color="red" />
 
