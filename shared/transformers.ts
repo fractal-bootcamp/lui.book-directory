@@ -6,6 +6,25 @@ import { PORT } from "./constants";
 const serverPath = `http://localhost:${PORT}`;
 
 //////////////////////////////////////////////////////////////////////////////
+// USERS
+//////////////////////////////////////////////////////////////////////////////
+
+export const createOrUpdateReader = async (
+  clerkID: string,
+  firstName: string
+) => {
+  const response = await fetch(`${serverPath}/newuser`, {
+    method: "POST",
+    body: JSON.stringify({ clerkID, firstName }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const json = await response.json();
+  return json;
+};
+
+//////////////////////////////////////////////////////////////////////////////
 // GET ONE
 //////////////////////////////////////////////////////////////////////////////
 

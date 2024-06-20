@@ -23,6 +23,7 @@ model Author {
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
   rating    Int       @default(0)
+  imageUrl  String?
 
   // relationships
   books Book[]
@@ -37,13 +38,15 @@ model Book {
   updatedAt DateTime? @updatedAt
   language  String?
   rating    Int       @default(0)
+  imageUrl  String?
 
   // relational ids
   authorId Int
 
   // relationships
-  author Author @relation(fields: [authorId], references: [id])
-  tags   Tag[]
+  author  Author           @relation(fields: [authorId], references: [id])
+  tags    Tag[]
+  readers ReaderBookFave[]
 
   @@map("book")
 }
@@ -59,12 +62,24 @@ model Tag {
   @@map("tag")
 }
 
-model Webuser {
+model Reader {
   id        Int       @id @default(autoincrement())
-  name      String
+  name      String?
+  clerkID   String?   @unique
   avatarUrl String?
   createdAt DateTime  @default(now())
   updatedAt DateTime? @updatedAt
 
-  @@map("webuser")
+  books ReaderBookFave[]
+
+  @@map("reader")
+}
+
+model ReaderBookFave {
+  book     Book?   @relation(fields: [bookId], references: [id])
+  bookId   Int
+  reader   Reader? @relation(fields: [readerId], references: [id])
+  readerId Int
+
+  @@id([bookId, readerId])
 }

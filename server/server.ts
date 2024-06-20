@@ -15,10 +15,25 @@ app.get("/", async (req, res) => {
 
 //
 // Hierarchy is always:
+// 0 - Reader (web user)
 // 1 - Author
 // 2 - Book
 // 3 - Other
 //
+
+app.post("/newuser", async (req, res) => {
+  const reqClerkID = req.body.clerkID;
+  const reqFirstName = req.body.firstName;
+  console.log(reqClerkID);
+
+  const user = await client.reader.upsert({
+    where: { clerkID: reqClerkID },
+    update: { clerkID: reqClerkID, name: reqFirstName },
+    create: { clerkID: reqClerkID, name: reqFirstName },
+  });
+
+  res.json(user);
+});
 
 //////////////////////////////////////////////////////////////////////////////
 // GET ONE

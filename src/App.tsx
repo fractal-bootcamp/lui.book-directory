@@ -2,10 +2,22 @@ import "./App.css";
 
 import { NewAuthorForm } from "./inputforms/NewAuthorForm";
 import { NewBookForm } from "./inputforms/NewBookForm";
-import { getAllAuthors, getAllBooks } from "../shared/transformers";
+import {
+  createOrUpdateReader,
+  getAllAuthors,
+  getAllBooks,
+} from "../shared/transformers";
 import { ShowAuthors, ShowBooks } from "./components/ShowThings";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchBox } from "./inputforms/SearchBox";
+
+import {
+  SignedIn,
+  SignedOut,
+  SignInButton,
+  UserButton,
+  useUser,
+} from "@clerk/clerk-react";
 
 const startingAuthors = await getAllAuthors();
 
@@ -31,9 +43,35 @@ export const flexColClass = "flex flex-col m-5";
 const App = () => {
   const [displayedAuthors, setDisplayedAuthors] = useState(startingAuthors);
   const [displayedBooks, setDisplayedBooks] = useState(startingBooks);
+  const { isSignedIn, user } = useUser();
+  console.log("USER", user);
+  const [poller, setPoller] = useState(0); // Any time ANYTHING changes that you want to trigger some updates, setPoller with any new number
+
+  // this useEffect fetches data whenever isSigned in or poller changes
+  useEffect(() => {
+    console.log("USER OBJECT IS", user);
+    if (isSignedIn && user.id && user.firstName) {
+      createOrUpdateReader(user.id, user.firstName);
+      // async function setupMovies() {
+      //   const favMovies = await getUserFavMovies(user!.id);
+      //   setFavMovies(favMovies);
+      // }
+      // setupMovies();
+      // getNonFavorites();
+    }
+  }, [isSignedIn, poller]);
 
   return (
     <>
+      <header>
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <UserButton />
+        </SignedIn>
+      </header>
+      <button onClick={() => setPoller(poller + 1)}>Sync</button>
       <Divider text={"Search for your faves!"} color={"blue"} />
       <div className={flexRowClass}>
         <SearchBox contentType="Author" setValue={setDisplayedAuthors} />
