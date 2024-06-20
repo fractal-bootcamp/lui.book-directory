@@ -1,5 +1,5 @@
 import client from "./client";
-import { getRandomAuthor } from "./shared/transformers";
+import { getRandomAuthor, searchAuthors } from "./shared/transformers";
 
 const seed = async () => {
   await client.book.deleteMany({
@@ -13,25 +13,27 @@ const seed = async () => {
   const authors = await client.author.createMany({
     data: [
       {
-        name: "Kurt Blogs",
+        name: "Kurt Vonnegut",
       },
       {
-        name: "Mary Peary",
+        name: "Mary Beard",
       },
     ],
   });
 
-  const sampleAuthorId = (await getRandomAuthor()).id;
+  const sampleAuthorId = (await searchAuthors("Kurt Vonnegut"))[0].id;
 
   const books = await client.book.createMany({
     data: [
       {
         authorId: sampleAuthorId,
-        name: "Book 1",
+        name: "Hocus Pocus",
+        language: "English",
       },
       {
         authorId: sampleAuthorId,
-        name: "Atlas Book 2",
+        name: "Timequake",
+        language: "English",
       },
     ],
   });
