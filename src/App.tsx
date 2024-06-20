@@ -5,6 +5,7 @@ import { NewBookForm } from "./inputforms/NewBookForm";
 import { getAllAuthors, getAllBooks } from "../shared/transformers";
 import { ShowAuthors, ShowBooks } from "./components/ShowThings";
 import { useState } from "react";
+import { SearchBox } from "./inputforms/SearchBox";
 
 const startingAuthors = await getAllAuthors();
 
@@ -23,9 +24,9 @@ const Divider = ({ text, color }: { text: string; color: string }) => {
   );
 };
 
-const flexRowClass = "flex flex-row m-5 justify-center";
+export const flexRowClass = "flex flex-row m-5 justify-center";
 
-const flexColClass = "flex flex-col m-5";
+export const flexColClass = "flex flex-col m-5";
 
 const App = () => {
   const [displayedAuthors, setDisplayedAuthors] = useState(startingAuthors);
@@ -35,13 +36,8 @@ const App = () => {
     <>
       <Divider text={"Search for your faves!"} color={"blue"} />
       <div className={flexRowClass}>
-        <div className={flexColClass}>Search Input A will go here</div>
-        <div className={flexColClass}>Search Input B will go here</div>
-      </div>
-      <br />
-      <div className={flexRowClass}>
-        <button onClick={() => getAllAuthors()}>Author Search</button>
-        <button onClick={() => console.log("Hello World")}>Book Search</button>
+        <SearchBox contentType="Author" setValue={setDisplayedAuthors} />
+        <SearchBox contentType="Book" setValue={setDisplayedBooks} />
       </div>
 
       <Divider text="Explore the library" color="green" />
